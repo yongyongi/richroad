@@ -25,18 +25,14 @@ const Contents = styled.div`
 `;
 
 const Block = styled.div`
-  ${(props) =>
-    props.left
-      ? css`
-          margin-right: 80px;
-        `
-      : css`
-          margin-left: 80px;
-        `}
   border-radius: 15px;
+  /* width: 600px;
+  height: 800px; */
+  box-sizing: border-box;
   width: 600px;
   height: 800px;
   background-color: #232a3c;
+  margin: 70px;
 `;
 
 export default MainPage;
