@@ -7,8 +7,10 @@ import Question from "../src/components/QuestionIcon";
 function App() {
   return (
     <Container>
-      <MainPage />
       {/* <LandingPage /> */}
+      <Body>
+        <MainPage />
+      </Body>
       <Question />
     </Container>
   );
@@ -17,8 +19,11 @@ function App() {
 const Container = styled.div`
   display: grid;
   place-items: center;
-  width: 100vw;
   height: 100vh;
   background-color: #141722;
+`;
+
+const Body = styled.div`
+  display: flex;
 `;
 export default App;
