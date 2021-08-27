@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Month from "../components/Month";
+import Money from "../components/Money";
 
 function List() {
   return (
@@ -8,12 +8,12 @@ function List() {
       <Name>김승용</Name>
       <Age>29</Age>
       <Investment>
-        투자금
-        <Month />
+        <Text>투자금</Text>
+        <Money />
       </Investment>
       <CurrentValue>
-        현재가치
-        <Month />
+        <Text>현재가치</Text>
+        <Money />
       </CurrentValue>
       <EarningsRate>
         <Triangle />
@@ -24,25 +24,47 @@ function List() {
 }
 
 const Container = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border: 3px solid #f7a81b;
-  border-radius: 30px;
-  width: 400px;
-  padding: 5px 20px;
+  border-radius: 50px;
+  width: 500px;
+  padding: 10px 20px;
+  margin-bottom: 8px;
 `;
+
 const Name = styled.div`
+  font-size: 20px;
+  font-weight: bolder;
   color: #d5d5d5;
 `;
 const Age = styled.div`
+  font-size: 20px;
+  font-weight: bolder;
   color: #d5d5d5;
 `;
 const Investment = styled.div`
   color: #d5d5d5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* position: relative; */
 `;
 const CurrentValue = styled.div`
   color: #d5d5d5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* position: relative; */
+`;
+const Text = styled.div`
+  size: 18px;
+  font-weight: bolder;
+  /* position: absolute;
+  top: -18px;
+  right: 25px; */
 `;
 const EarningsRate = styled.div`
   display: flex;

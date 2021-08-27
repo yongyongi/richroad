@@ -12,6 +12,9 @@ function MainPage() {
         <Month />
         <LeftBody>
           <List />
+          <List />
+          <List />
+          <List />
         </LeftBody>
       </Block>
       <Block right>
@@ -31,13 +34,13 @@ function MainPage() {
 const Container = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const Block = styled.div`
   display: flex;
+  flex: 0.4;
   flex-direction: column;
   align-items: center;
   border-radius: 15px;
