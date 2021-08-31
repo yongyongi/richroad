@@ -2,11 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import Money from "../components/Money";
 
-function List() {
+function List({ month }) {
   return (
     <Container>
-      <Name>김승용</Name>
-      <Age>29</Age>
+      {month ? (
+        <Month>{month}</Month>
+      ) : (
+        <>
+          <Name>김승용</Name>
+          <Age>29</Age>
+        </>
+      )}
+
       <Investment>
         <Text>투자금</Text>
         <Money />
@@ -31,7 +38,7 @@ const Container = styled.div`
   border: 3px solid #f7a81b;
   border-radius: 50px;
   width: 500px;
-  padding: 10px 20px;
+  padding: 10px 40px;
   margin-bottom: 8px;
 `;
 
@@ -79,6 +86,12 @@ const Triangle = styled.div`
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
   border-bottom: 15px solid red;
+`;
+
+const Month = styled.div`
+  font-size: 20px;
+  font-weight: bolder;
+  color: #d5d5d5;
 `;
 
 export default List;

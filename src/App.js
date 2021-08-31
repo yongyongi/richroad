@@ -8,12 +8,12 @@ import RichRoadLogo from "../src/img/richroad.png";
 function App() {
   return (
     <Container>
-      {/* <LandingPage /> */}
       <Head>
         <Logo src={RichRoadLogo} />
         <Profile />
       </Head>
       <Body>
+        {/* <LandingPage /> */}
         <MainPage />
       </Body>
       <Question />
@@ -22,15 +22,15 @@ function App() {
 }
 
 const Container = styled.div`
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   background-color: #141722;
   overflow: scroll;
 `;
 
 const Head = styled.div`
-  height: 100%;
+  flex: 0.12;
   width: 100%;
   display: flex;
   align-items: center;
@@ -38,10 +38,10 @@ const Head = styled.div`
   border-bottom: 1px solid #232a3c;
 `;
 const Body = styled.div`
-  height: 100%;
+  flex: 0.88;
   display: flex;
   align-items: center;
-  margin-top: -30px;
+  justify-content: center;
 `;
 
 const Logo = styled.img`
@@ -55,6 +55,6 @@ const Profile = styled.div`
   height: 45px;
   border-radius: 50%;
   background-color: white;
-  margin: 50px;
+  margin: 35px;
 `;
 export default App;
