@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import google from "../img/google.png";
+import { auth, GoogleAuthProvider, signInWithPopup } from "../firebase";
 
-function LandingPage() {
+function LandingPage({ Link }) {
+  const googleLogin = async () => {
+    const googleProvider = new GoogleAuthProvider();
+    await signInWithPopup(auth, googleProvider);
+  };
   return (
     <Container>
       <Text>
@@ -10,8 +15,11 @@ function LandingPage() {
         <br />
         기록해보세요
       </Text>
-      <LoginButton src={google} />
-      <GuestButton>구경하기</GuestButton>
+
+      <LoginButton onClick={googleLogin} src={google} />
+      <Link to="main">
+        <GuestButton>구경하기</GuestButton>
+      </Link>
     </Container>
   );
 }
