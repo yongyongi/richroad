@@ -1,30 +1,53 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 import LandingPage from "../src/pages/LandingPage";
 import MainPage from "../src/pages/MainPage";
 import Question from "../src/components/QuestionIcon";
 import RichRoadLogo from "../src/img/richroad.png";
+import { auth, onAuthStateChanged } from "./firebase";
+import avatar from "./img/avatar.jpg";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
+//로그인 되어있으면 메인페이지로 이동
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [init, setInit] = useState(false);
+  const [userInformation, setUserInformation] = useState("");
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        setUserInformation(user.photoURL);
+      } else setIsLoggedIn(false);
+
+      setInit(true);
+    });
+  }, []);
+
   return (
     <Router>
       <Container>
         <Head>
-          <Logo src={RichRoadLogo} />
-          <Profile />
+          <Link to="/main">
+            <Logo src={RichRoadLogo} />
+          </Link>
         </Head>
         <Switch>
-          <Route exact path="/">
+          {init ? (
             <Body>
-              <LandingPage Link={Link} />
+              <Route exact path="/">
+                <LandingPage isLoggedIn={isLoggedIn} />
+              </Route>
+
+              <Route exact path="/main">
+                <Profile src={userInformation ? userInformation : avatar} />
+                <MainPage isLoggedIn={isLoggedIn} />
+              </Route>
             </Body>
-          </Route>
-          <Route exact path="/main">
-            <Body>
-              <MainPage />
-            </Body>
-          </Route>
+          ) : (
+            <Body init>기다리는중!</Body>
+          )}
         </Switch>
         <Question />
       </Container>
@@ -53,12 +76,18 @@ const Body = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  ${(props) =>
+    props.init &&
+    css`
+      color: white;
+      font-size: 80px;
+    `}
 `;
 
 const Logo = styled.img`
   width: 200px;
 `;
-const Profile = styled.div`
+const Profile = styled.img`
   position: absolute;
   top: 0px;
   right: 0px;
@@ -67,5 +96,7 @@ const Profile = styled.div`
   border-radius: 50%;
   background-color: white;
   margin: 35px;
+  box-shadow: 0px 0px 5px 0px #d5d5d5;
+  cursor: pointer;
 `;
 export default App;

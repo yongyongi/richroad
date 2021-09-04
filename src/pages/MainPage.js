@@ -4,8 +4,13 @@ import google from "../img/google.png";
 import List from "../components/List";
 import Month from "../components/Month";
 import PlusButton from "../components/PlusButton";
+import { GoogleAuthProvider, signInWithPopup, auth } from "../firebase";
 
-function MainPage() {
+function MainPage({ isLoggedIn }) {
+  const googleLogin = async () => {
+    const googleProvider = new GoogleAuthProvider();
+    await signInWithPopup(auth, googleProvider);
+  };
   return (
     <Container>
       <Block left>
@@ -20,14 +25,14 @@ function MainPage() {
       </Block>
       <Block right>
         <Head right>내 주식 기록</Head>
-        {1 !== 1 ? ( //로그인이 되었는지 안되었는지
+        {!isLoggedIn ? ( //로그인이 되었는지 안되었는지
           //로그인이 안된경우
           <RightBodyFree>
             <Notice>
               로그인이
               <br /> 필요한 서비스입니다.
             </Notice>
-            <Login src={google}></Login>
+            <Login onClick={googleLogin} src={google}></Login>
           </RightBodyFree>
         ) : //로그인이 된경우
         1 !== 1 ? ( //로그인ok, 데이터 있는지 없는지

@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import google from "../img/google.png";
 import { auth, GoogleAuthProvider, signInWithPopup } from "../firebase";
+import { Link, useHistory } from "react-router-dom";
 
-function LandingPage({ Link }) {
+function LandingPage({ isLoggedIn }) {
+  const history = useHistory();
   const googleLogin = async () => {
     const googleProvider = new GoogleAuthProvider();
     await signInWithPopup(auth, googleProvider);
+    history.push("/main");
   };
   return (
     <Container>
@@ -15,11 +18,18 @@ function LandingPage({ Link }) {
         <br />
         기록해보세요
       </Text>
-
-      <LoginButton onClick={googleLogin} src={google} />
-      <Link to="main">
-        <GuestButton>구경하기</GuestButton>
-      </Link>
+      {isLoggedIn ? (
+        <Link to="/main">
+          <GuestButton>기록하기</GuestButton>
+        </Link>
+      ) : (
+        <>
+          <LoginButton onClick={googleLogin} src={google} />
+          <Link to="/main">
+            <GuestButton>구경하기</GuestButton>
+          </Link>
+        </>
+      )}
     </Container>
   );
 }
