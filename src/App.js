@@ -7,23 +7,33 @@ import RichRoadLogo from "../src/img/richroad.png";
 import { auth, onAuthStateChanged } from "./firebase";
 import avatar from "./img/avatar.jpg";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import SettingModal from "./components/SettingModal";
+import Mypage from "./pages/Mypage";
 
-//로그인 되어있으면 메인페이지로 이동
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
-  const [userInformation, setUserInformation] = useState("");
+  const [userInformation, setUserInformation] = useState(avatar);
+  const [menuModal, setMenuModal] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsLoggedIn(true);
-        setUserInformation(user.photoURL);
-      } else setIsLoggedIn(false);
+        setIsLoggedIn(true); // 로그인 했다는 표시
+        setUserInformation(user.photoURL); // 로그인 시 구글 프로필이미지로 변경
+        setMenuModal(false); // 로그인 후 모달창이 자동켜짐 방지
+      } else {
+        setIsLoggedIn(false); // 비회원상태거나 로그아웃 했을때
+        setUserInformation(avatar); // 비회원이거나 로그아웃 했을때 기본 프로필로 이미지 변경
+      }
 
-      setInit(true);
+      setInit(true); //작업이 끝나면 로딩페이지 지우고 본페이지 나오게 하기
     });
   }, []);
+
+  const menuModalClick = () => {
+    setMenuModal((prev) => !prev);
+  };
 
   return (
     <Router>
@@ -33,6 +43,8 @@ function App() {
             <Logo src={RichRoadLogo} />
           </Link>
         </Head>
+        <Profile onClick={menuModalClick} src={userInformation} />
+        {isLoggedIn && menuModal && <SettingModal state={menuModal} />}
         <Switch>
           {init ? (
             <Body>
@@ -41,8 +53,10 @@ function App() {
               </Route>
 
               <Route exact path="/main">
-                <Profile src={userInformation ? userInformation : avatar} />
                 <MainPage isLoggedIn={isLoggedIn} />
+              </Route>
+              <Route exact path="/mypage">
+                <Mypage />
               </Route>
             </Body>
           ) : (
@@ -61,6 +75,8 @@ const Container = styled.div`
   height: 100vh;
   background-color: #141722;
   overflow: scroll;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 `;
 
 const Head = styled.div`
