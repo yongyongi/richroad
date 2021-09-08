@@ -7,7 +7,7 @@ import RichRoadLogo from "../src/img/richroad.png";
 import { auth, onAuthStateChanged } from "./firebase";
 import avatar from "./img/avatar.jpg";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import SettingModal from "./components/SettingModal";
+import MenuModal from "./components/MenuModal";
 import Mypage from "./pages/Mypage";
 
 function App() {
@@ -42,9 +42,12 @@ function App() {
           <Link to="/main">
             <Logo src={RichRoadLogo} />
           </Link>
+          <Profile onClick={menuModalClick} src={userInformation} />
+          {isLoggedIn && menuModal && (
+            <MenuModal setState={setMenuModal} state={menuModal} />
+          )}
         </Head>
-        <Profile onClick={menuModalClick} src={userInformation} />
-        {isLoggedIn && menuModal && <SettingModal state={menuModal} />}
+
         <Switch>
           {init ? (
             <Body>
