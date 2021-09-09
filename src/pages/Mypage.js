@@ -5,7 +5,7 @@ function Mypage() {
   return (
     <Container>
       <Head>
-        <Image></Image>
+        <Image />
       </Head>
       <Body>
         <AgeContainer>
@@ -56,7 +56,7 @@ const Container = styled.div`
 `;
 const Head = styled.div`
   margin-top: 50px;
-  width: 80%;
+  width: 50%;
   border-bottom: 2px solid white;
   padding-bottom: 40px;
 `;
@@ -70,7 +70,7 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 40px;
-  width: 80%;
+  width: 50%;
   color: white;
   font-size: 30px;
 `;
