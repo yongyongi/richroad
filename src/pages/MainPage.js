@@ -15,7 +15,7 @@ function MainPage({ isLoggedIn }) {
     <Container>
       <Block left>
         <Head>다른 유저의 수익률</Head>
-        <Month imformation="월" big />
+        <Month information="월" big />
         <LeftBody>
           <List />
           <List />
@@ -45,9 +45,9 @@ function MainPage({ isLoggedIn }) {
           //데이터가 있다면
           <RightBodyData>
             <Top>
-              <Month imformation="이름" />
-              <Month imformation="나이" />
-              <Month imformation="경험" />
+              <Month information="이름" />
+              <Month information="나이" />
+              <Month information="경험" />
             </Top>
             <PlusButton small />
             <List month="9월" />

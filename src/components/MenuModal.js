@@ -1,40 +1,43 @@
-import React, { useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-function MenuModal({ state, setState }) {
+function MenuModal({ setModal }) {
   const history = useHistory();
-  const overLay = useRef();
+
   const logOut = async () => {
     await signOut(auth);
     history.push("/main");
-    setState(false);
+    setModal(false);
   };
-  const modalOutClick = (e) => {
-    if (e.target === overLay.current) setState(false);
+  const modalOutClick = () => {
+    setModal(false);
   };
 
   const myPage = () => {
     history.push("/mypage");
+    setModal(false);
+  };
 
-    setState(false);
+  const settingPage = () => {
+    history.push("/settingpage");
+    setModal(false);
   };
   return (
-    <Container state={state}>
-      <OverLay onClick={modalOutClick} ref={overLay} />
+    <Container>
+      <OverLay onClick={modalOutClick} />
       <ModalBox>
         <List onClick={myPage}>마이페이지</List>
-        <List onClick={logOut}>Logout</List>
+        <List onClick={settingPage}>자산기록하기</List>
+        <List onClick={logOut}>로그아웃</List>
       </ModalBox>
     </Container>
   );
 }
 
-const Container = styled.div`
-  display: ${(props) => (props.state ? "block" : "none")};
-`;
+const Container = styled.div``;
 const ModalBox = styled.div`
   position: fixed;
   background-color: #d5d5d5;

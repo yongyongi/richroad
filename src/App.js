@@ -8,7 +8,8 @@ import { auth, onAuthStateChanged } from "./firebase";
 import avatar from "./img/avatar.jpg";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import MenuModal from "./components/MenuModal";
-import Mypage from "./pages/Mypage";
+import Mypage from "./pages/MyPage";
+import SettingPage from "./pages/SettingPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,9 +44,7 @@ function App() {
             <Logo src={RichRoadLogo} />
           </Link>
           <Profile onClick={menuModalClick} src={userInformation} />
-          {isLoggedIn && menuModal && (
-            <MenuModal setState={setMenuModal} state={menuModal} />
-          )}
+          {isLoggedIn && menuModal && <MenuModal setModal={setMenuModal} />}
         </Head>
 
         <Switch>
@@ -60,6 +59,10 @@ function App() {
               </Route>
               <Route exact path="/mypage">
                 <Mypage />
+              </Route>
+
+              <Route exact path="/settingpage">
+                <SettingPage />
               </Route>
             </Body>
           ) : (
