@@ -1,8 +1,7 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import google from "../img/google.png";
 import List from "../components/List";
-import Month from "../components/Month";
 import PlusButton from "../components/PlusButton";
 import { GoogleAuthProvider, signInWithPopup, auth } from "../firebase";
 
@@ -14,9 +13,13 @@ function MainPage({ isLoggedIn }) {
   return (
     <Container>
       <Block left>
-        <Head>다른 유저의 수익률</Head>
-        <Month information="월" big />
+        <Head>
+          <Title>다른 유저의 수익률</Title>
+        </Head>
         <LeftBody>
+          <MonthContainer>
+            <Month>월</Month>
+          </MonthContainer>
           <List />
           <List />
           <List />
@@ -24,15 +27,19 @@ function MainPage({ isLoggedIn }) {
         </LeftBody>
       </Block>
       <Block right>
-        <Head right>내 주식 기록</Head>
+        <Head>
+          <Title>내 주식 기록</Title>
+        </Head>
         {!isLoggedIn ? ( //로그인이 되었는지 안되었는지
           //로그인이 안된경우
           <RightBodyFree>
-            <Notice>
-              로그인이
-              <br /> 필요한 서비스입니다.
-            </Notice>
-            <Login onClick={googleLogin} src={google}></Login>
+            <LoginContainer>
+              <Notice>
+                로그인이
+                <br /> 필요한 서비스입니다.
+              </Notice>
+              <Login onClick={googleLogin} src={google}></Login>
+            </LoginContainer>
           </RightBodyFree>
         ) : //로그인이 된경우
         1 !== 1 ? ( //로그인ok, 데이터 있는지 없는지
@@ -44,11 +51,11 @@ function MainPage({ isLoggedIn }) {
         ) : (
           //데이터가 있다면
           <RightBodyData>
-            <Top>
-              <Month information="이름" />
-              <Month information="나이" />
-              <Month information="경험" />
-            </Top>
+            <InfoContainer>
+              <Info>이름</Info>
+              <Info>나이</Info>
+              <Info>투자경험</Info>
+            </InfoContainer>
             <PlusButton small />
             <List month="9월" />
           </RightBodyData>
@@ -74,23 +81,36 @@ const Block = styled.div`
   height: 800px;
   background-color: #232a3c;
   margin: 30px;
+  padding: 20px;
 `;
 
-const Head = styled.p`
-  margin-bottom: 0px;
+const Head = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
+const Title = styled.div`
+  margin-bottom: 0px;
   color: #d5d5d5;
   font-size: 50px;
   font-weight: bolder;
 `;
 
 const RightBodyFree = styled.div`
-  margin-top: 100px;
   flex: 1;
   display: flex;
   flex-direction: column;
-
   text-align: center;
+  justify-content: center;
+`;
+
+const LoginContainer = styled.div`
+  margin-top: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `;
 const RightBodyNotData = styled.div`
   flex: 1;
@@ -107,12 +127,22 @@ const RightBodyData = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Top = styled.div`
+const InfoContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `;
 
-const Notice = styled.p`
+const Info = styled.div`
+  width: fit-content;
+  text-align: center;
+  margin-top: 20px;
+  color: #f7a81b;
+  font-size: 20px;
+  border: 1px solid #707070;
+  padding: 5px 15px;
+  border-radius: 30px;
+`;
+const Notice = styled.div`
   color: #d5d5d5;
   font-size: 30px;
   font-weight: bolder;
@@ -129,7 +159,22 @@ const LeftBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+`;
+
+const MonthContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+`;
+const Month = styled.div`
+  width: fit-content;
+  text-align: center;
+  margin-top: 20px;
+  color: #f7a81b;
+  font-size: 30px;
+  border: 1px solid #707070;
+  padding: 5px 15px;
+  border-radius: 30px;
 `;
 
 export default MainPage;

@@ -1,35 +1,83 @@
-import React from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Month from "../components/Month";
 import QuestionIcon from "../components/QuestionIcon";
 
-const SettingPage = () => {
+const SettingPage = ({ userInfo }) => {
+  const max = 9999999999999;
+  const [purchase, setPurchase] = useState("");
+  const [evaluation, setEvaluation] = useState("");
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const rate = (evaluation / purchase) * 100;
+    await addDoc(collection(db, "users"), {
+      createdAt: new Date().toLocaleString(),
+      creatorId: userInfo.uid,
+      asset: [
+        new Date().getMonth() + 1,
+        "nick",
+        "age",
+        purchase,
+        evaluation,
+        rate,
+      ],
+    });
+    setPurchase("");
+    setEvaluation("");
+  };
+  const onChange = (e) => {
+    const {
+      target: { value, name },
+    } = e;
+    if (name === "evaluation") {
+      setEvaluation(value);
+    } else {
+      setPurchase(value);
+    }
+  };
   return (
     <Container>
       <Head>
-        <Month information="9월" settingPage />
+        <Month>9월</Month>
       </Head>
       <Body>
-        <PurchaseAmount>
-          <Item>
-            총 매입금액
-            <QuestionIcon settingPage />
-          </Item>
+        <Form onSubmit={onSubmit}>
+          <PurchaseAmount>
+            <Item>
+              총 매입금액
+              <QuestionIcon settingPage />
+            </Item>
+            <InputContainer>
+              <Input
+                onChange={onChange}
+                name="purchase"
+                type="number"
+                max={max}
+                required
+                value={purchase}
+              />
+            </InputContainer>
+          </PurchaseAmount>
 
-          <Item input>
-            <Input />
-          </Item>
-        </PurchaseAmount>
-        <EvaluationAmount>
-          <Item>
-            총 평가금액
-            <QuestionIcon settingPage />
-          </Item>
-
-          <Item input>
-            <Input />
-          </Item>
-        </EvaluationAmount>
+          <EvaluationAmount>
+            <Item>
+              총 평가금액
+              <QuestionIcon settingPage />
+            </Item>
+            <InputContainer>
+              <Input
+                onChange={onChange}
+                name="evaluation"
+                type="number"
+                max={max}
+                required
+                value={evaluation}
+              />
+            </InputContainer>
+          </EvaluationAmount>
+          <Submit type="submit" />
+        </Form>
       </Body>
     </Container>
   );
@@ -49,6 +97,17 @@ const Head = styled.div`
   justify-content: center;
   width: 50%;
 `;
+
+const Month = styled.div`
+  width: 200px;
+  text-align: center;
+  margin-top: 20px;
+  color: #f7a81b;
+  font-size: 60px;
+  border: 1px solid #707070;
+  padding: 5px 15px;
+  border-radius: 30px;
+`;
 const Body = styled.div`
   flex: 0.8;
   display: flex;
@@ -58,6 +117,11 @@ const Body = styled.div`
   color: white;
   font-size: 25px;
   font-weight: bold;
+`;
+const Form = styled.form`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 const PurchaseAmount = styled.div`
   flex: 0.35;
@@ -69,15 +133,33 @@ const EvaluationAmount = styled.div`
 `;
 const Item = styled.div`
   text-align: center;
-  background-color: ${(props) => (props.input ? "white" : "#232a3c")};
-  padding: ${(props) => (props.input ? "30px" : "60px")};
-  border-radius: ${(props) =>
-    props.input ? "0px 0px 50px 50px" : "50px 50px 0px 0px"};
+  background-color: #232a3c;
+  padding: 60px;
+  border-radius: 50px 50px 0px 0px;
 `;
 const Input = styled.input`
-  padding: 30px;
+  font-size: 30px;
+  height: 80px;
+  text-align: center;
+  font-weight: bolder;
   outline: none;
   border: none;
+  && {
+    ::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+`;
+const InputContainer = styled.div`
+  text-align: center;
+  background-color: white;
+  padding: 35px;
+  border-radius: 0px 0px 50px 50px;
+`;
+
+const Submit = styled.input`
+  display: none;
 `;
 
 export default SettingPage;

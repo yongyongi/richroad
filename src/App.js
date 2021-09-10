@@ -14,18 +14,18 @@ import SettingPage from "./pages/SettingPage";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
-  const [userInformation, setUserInformation] = useState(avatar);
+  const [userInfo, setuserInfo] = useState("");
   const [menuModal, setMenuModal] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true); // 로그인 했다는 표시
-        setUserInformation(user.photoURL); // 로그인 시 구글 프로필이미지로 변경
+        setuserInfo(user); // 로그인 시 사용자 정보가 담김
         setMenuModal(false); // 로그인 후 모달창이 자동켜짐 방지
       } else {
         setIsLoggedIn(false); // 비회원상태거나 로그아웃 했을때
-        setUserInformation(avatar); // 비회원이거나 로그아웃 했을때 기본 프로필로 이미지 변경
+        setuserInfo(""); // 비회원이거나 로그아웃 했을때 기본 프로필로 이미지 변경, 그리고 회원정보 제거
       }
 
       setInit(true); //작업이 끝나면 로딩페이지 지우고 본페이지 나오게 하기
@@ -43,7 +43,10 @@ function App() {
           <Link to="/main">
             <Logo src={RichRoadLogo} />
           </Link>
-          <Profile onClick={menuModalClick} src={userInformation} />
+          <Profile
+            onClick={menuModalClick}
+            src={userInfo ? userInfo.photoURL : avatar}
+          />
           {isLoggedIn && menuModal && <MenuModal setModal={setMenuModal} />}
         </Head>
 
@@ -58,11 +61,11 @@ function App() {
                 <MainPage isLoggedIn={isLoggedIn} />
               </Route>
               <Route exact path="/mypage">
-                <Mypage />
+                <Mypage userInfo={userInfo} />
               </Route>
 
               <Route exact path="/settingpage">
-                <SettingPage />
+                <SettingPage userInfo={userInfo} />
               </Route>
             </Body>
           ) : (

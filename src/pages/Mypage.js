@@ -1,13 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-function Mypage() {
+function Mypage({ userInfo }) {
   return (
     <Container>
       <Head>
         <Image />
       </Head>
       <Body>
+        <NickContainer>
+          <Info>닉네임</Info>
+          {/* 추후에 app에서 내려주는 닉네임이 있으면? 닉네임으로 아니면 userInfo.displayName */}
+          <Input>{userInfo.displayName}</Input>
+          <ModalButton>수정</ModalButton>
+        </NickContainer>
         <AgeContainer>
           <Info>나이</Info>
           <Input>29살</Input>
@@ -22,7 +28,10 @@ function Mypage() {
     </Container>
   );
 }
-
+const NickContainer = styled.div`
+  display: flex;
+  margin-bottom: 50px;
+`;
 const AgeContainer = styled.div`
   display: flex;
   margin-bottom: 50px;
@@ -44,6 +53,8 @@ const ModalButton = styled.button`
   color: white;
   font-weight: bolder;
   cursor: pointer;
+  width: 100px;
+  font-size: 20px;
 `;
 
 const Container = styled.div`
