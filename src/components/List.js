@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Money from "../components/Money";
 
 function List({ month }) {
   return (
@@ -16,11 +15,11 @@ function List({ month }) {
 
       <Investment>
         <Text>투자금</Text>
-        <Money />
+        <Amount>2000만원</Amount>
       </Investment>
       <CurrentValue>
         <Text>현재가치</Text>
-        <Money />
+        <Amount>3000만원</Amount>
       </CurrentValue>
       <EarningsRate>
         <Triangle />
@@ -92,6 +91,13 @@ const Month = styled.div`
   font-size: 20px;
   font-weight: bolder;
   color: #d5d5d5;
+`;
+const Amount = styled.div`
+  color: #f7a81b;
+  font-size: 15px;
+  border: 1px solid #707070;
+  padding: 5px 15px;
+  border-radius: 30px;
 `;
 
 export default List;
