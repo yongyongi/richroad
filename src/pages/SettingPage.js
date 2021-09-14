@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import React, { useState } from "react";
 import styled from "styled-components";
 import QuestionIcon from "../components/QuestionIcon";
+import ErrorPage from "../components/ErrorPage";
 
 const SettingPage = ({ userInfo }) => {
   const max = 9999999999999;
@@ -37,49 +38,55 @@ const SettingPage = ({ userInfo }) => {
     }
   };
   return (
-    <Container>
-      <Head>
-        <Month>9월</Month>
-      </Head>
-      <Body>
-        <Form onSubmit={onSubmit}>
-          <PurchaseAmount>
-            <Item>
-              총 매입금액
-              <QuestionIcon settingPage />
-            </Item>
-            <InputContainer>
-              <Input
-                onChange={onChange}
-                name="purchase"
-                type="number"
-                max={max}
-                required
-                value={purchase}
-              />
-            </InputContainer>
-          </PurchaseAmount>
+    <>
+      {userInfo ? (
+        <Container>
+          <Head>
+            <Month>9월</Month>
+          </Head>
+          <Body>
+            <Form onSubmit={onSubmit}>
+              <PurchaseAmount>
+                <Item>
+                  총 매입금액
+                  <QuestionIcon settingPage />
+                </Item>
+                <InputContainer>
+                  <Input
+                    onChange={onChange}
+                    name="purchase"
+                    type="number"
+                    max={max}
+                    required
+                    value={purchase}
+                  />
+                </InputContainer>
+              </PurchaseAmount>
 
-          <EvaluationAmount>
-            <Item>
-              총 평가금액
-              <QuestionIcon settingPage />
-            </Item>
-            <InputContainer>
-              <Input
-                onChange={onChange}
-                name="evaluation"
-                type="number"
-                max={max}
-                required
-                value={evaluation}
-              />
-            </InputContainer>
-          </EvaluationAmount>
-          <Submit type="submit" />
-        </Form>
-      </Body>
-    </Container>
+              <EvaluationAmount>
+                <Item>
+                  총 평가금액
+                  <QuestionIcon settingPage />
+                </Item>
+                <InputContainer>
+                  <Input
+                    onChange={onChange}
+                    name="evaluation"
+                    type="number"
+                    max={max}
+                    required
+                    value={evaluation}
+                  />
+                </InputContainer>
+              </EvaluationAmount>
+              <Submit type="submit" />
+            </Form>
+          </Body>
+        </Container>
+      ) : (
+        <ErrorPage />
+      )}
+    </>
   );
 };
 
@@ -144,11 +151,8 @@ const Input = styled.input`
   font-weight: bolder;
   outline: none;
   border: none;
-  && {
-    ::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 `;
 const InputContainer = styled.div`

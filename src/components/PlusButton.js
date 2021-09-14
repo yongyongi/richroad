@@ -1,12 +1,18 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 function PlusButton({ small }) {
+  const history = useHistory();
+  const onClick = () => {
+    console.log("들옴");
+    history.push("/settingpage");
+  };
   return (
     <>
       {small ? (
         <Container>
-          <Button small>
+          <Button onClick={onClick} small>
             <Line1 />
             <Line2 />
           </Button>

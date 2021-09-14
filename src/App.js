@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import MenuModal from "./components/MenuModal";
 import Mypage from "./pages/MyPage";
 import SettingPage from "./pages/SettingPage";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,28 +51,32 @@ function App() {
           {isLoggedIn && menuModal && <MenuModal setModal={setMenuModal} />}
         </Head>
 
-        <Switch>
-          {init ? (
-            <Body>
+        {init ? (
+          <Body>
+            <Switch>
               <Route exact path="/">
                 <LandingPage isLoggedIn={isLoggedIn} />
               </Route>
 
-              <Route exact path="/main">
+              <Route path="/main">
                 <MainPage isLoggedIn={isLoggedIn} />
               </Route>
-              <Route exact path="/mypage">
+              <Route path="/mypage">
                 <Mypage userInfo={userInfo} />
               </Route>
 
-              <Route exact path="/settingpage">
+              <Route path="/settingpage">
                 <SettingPage userInfo={userInfo} />
               </Route>
-            </Body>
-          ) : (
-            <Body init>기다리는중!</Body>
-          )}
-        </Switch>
+              <Route>
+                <ErrorPage />
+              </Route>
+            </Switch>
+          </Body>
+        ) : (
+          <Body init>기다리는중!</Body>
+        )}
+
         <Question />
       </Container>
     </Router>

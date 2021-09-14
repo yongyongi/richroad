@@ -1,31 +1,38 @@
 import React from "react";
 import styled from "styled-components";
+import ErrorPage from "../components/ErrorPage";
 
 function Mypage({ userInfo }) {
   return (
-    <Container>
-      <Head>
-        <Image />
-      </Head>
-      <Body>
-        <NickContainer>
-          <Info>닉네임</Info>
-          {/* 추후에 app에서 내려주는 닉네임이 있으면? 닉네임으로 아니면 userInfo.displayName */}
-          <Input>{userInfo.displayName}</Input>
-          <ModalButton>수정</ModalButton>
-        </NickContainer>
-        <AgeContainer>
-          <Info>나이</Info>
-          <Input>29살</Input>
-          <ModalButton>출생년도</ModalButton>
-        </AgeContainer>
-        <CareerContainer>
-          <Info>투자경력</Info>
-          <Input>3년</Input>
-          <ModalButton>시작년도</ModalButton>
-        </CareerContainer>
-      </Body>
-    </Container>
+    <>
+      {userInfo ? (
+        <Container>
+          <Head>
+            <Image />
+          </Head>
+          <Body>
+            <NickContainer>
+              <Info>닉네임</Info>
+              {/* 추후에 app에서 내려주는 닉네임이 있으면? 닉네임으로 아니면 userInfo.displayName */}
+              <Input>{userInfo.displayName}</Input>
+              <ModalButton>수정</ModalButton>
+            </NickContainer>
+            <AgeContainer>
+              <Info>나이</Info>
+              <Input>29살</Input>
+              <ModalButton>출생년도</ModalButton>
+            </AgeContainer>
+            <CareerContainer>
+              <Info>투자경력</Info>
+              <Input>3년</Input>
+              <ModalButton>시작년도</ModalButton>
+            </CareerContainer>
+          </Body>
+        </Container>
+      ) : (
+        <ErrorPage />
+      )}
+    </>
   );
 }
 const NickContainer = styled.div`
